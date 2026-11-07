@@ -70,7 +70,8 @@
       var callerPeerconnection = null;
       var answerPeerconnection = null;
 
-      var ws = new WebSocket("wss://" + window.location.host + "/echo");
+      var protocol = window.location.protocol == "https:" ? "wss://" : "ws://";
+      var ws = new WebSocket(protocol + window.location.host + "/echo");
 
       var sendMsg = function (target, msg) {
           msg["sender"] = "server";

@@ -78,7 +78,7 @@
             $("#username").attr("disabled", true);
             $("#connect").attr("disabled", true);
 
-            var protocol = window.location.protocol == "https" ? "wss://" : "ws://";
+            var protocol = window.location.protocol == "https:" ? "wss://" : "ws://";
             testWS = new WebSocket(protocol + window.location.host + "/echo");
             testWS.onopen = function (event) {
                 console.log("Hey cool, websocket open");
