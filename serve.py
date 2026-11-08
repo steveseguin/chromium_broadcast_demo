@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from flask import Flask, send_from_directory
 from flask_sockets import Sockets
+from werkzeug.routing import Rule
 import json
 
 app = Flask(__name__)
@@ -46,6 +47,13 @@ def echo_socket(ws):
 
     if ws in clients:
         clients.remove(ws)
+
+# Flask-Sockets 0.2.1 drops route options, including websocket=True.
+# Add its WS-aware counterpart while retaining the original HTTP fallback.
+echo_rule = Rule('/echo', endpoint=echo_socket)
+if hasattr(echo_rule, 'websocket'):
+    echo_rule.websocket = True
+    sockets.url_map.add(echo_rule)
 
 @app.route('/<path:path>')
 def send_static(path):
